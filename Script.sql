@@ -1,7 +1,6 @@
 CREATE TABLE IF NOT EXISTS Artist (
 	id SERIAL PRIMARY KEY,
-	name VARCHAR(80) NOT NULL,
-	genre VARCHAR(40) NOT NULL
+	name VARCHAR(80) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Genre (
@@ -18,8 +17,7 @@ create table if not exists Artist_genre (
 create table if not exists Album (
 	id serial primary key,
 	name VARCHAR(80) NOT null,
-	release integer not null,
-	artist_id INTEGER NOT NULL REFERENCES Artist(id)
+	release integer not null
 );
 
 create table if not exists Artist_album (
@@ -29,13 +27,19 @@ create table if not exists Artist_album (
 );
 
 create table if not exists Track (
+	id SERIAL PRIMARY KEY,
 	name VARCHAR(80) NOT NULL,
-	duration integer NOT NULL,
-	id integer primary key references Album(id)
+	duration integer NOT NULL	
 );
 
 create table if not exists Collection (
+	id SERIAL PRIMARY KEY,
 	name VARCHAR(80) NOT NULL,
-	release integer NOT null,
-	track_id INTEGER NOT NULL REFERENCES Track(id)
+	release integer NOT null
+);
+
+create table if not exists Collection_track (
+	track_id integer references Track(id),
+	collection_id integer references Collection(id),
+	constraint pk3 primary key (track_id, collection_id)
 );
