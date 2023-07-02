@@ -42,10 +42,15 @@ JOIN track t ON a.album_id = t.album_id
 GROUP BY albumname;
 
 --Все исполнители, которые не выпустили альбомы в 2020 году. (для корректности в 2011 сделал).
-SELECT artistname, release FROM artist ar
-JOIN artist_album aa ON ar.artist_id = aa.album_id
-JOIN album al ON aa.album_id = al.album_id
-WHERE release != 2011
+select artistname  
+FROM artist  
+WHERE artistname NOT IN ( 
+    SELECT artistname 
+    FROM artist ar 
+    JOIN artist_album aa ON ar.artist_id = aa.album_id
+    JOIN album al ON aa.album_id = al.album_id
+    where release = 2011 
+);
 
 --Названия сборников, в которых присутствует конкретный исполнитель (выберите его сами).
 SELECT c.collectionname FROM collection c
